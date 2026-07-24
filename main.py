@@ -1,59 +1,47 @@
-import asyncio
-import logging
 import os
-import discord
+import asyncio
+from aioweb import web  # Biblioteca para criar um mini servidor web gratuito
 from discord.ext import commands
-from dotenv import load_dotenv
+import discord
 
-load_dotenv()
-TOKEN = os.getenv("DISCORD_TOKEN")
+# Configuração do Bot do Discord
+intents = discord.Intents.default()
+bot = commands.Bot(command_prefix="!", intents=intents)
 
-os.makedirs("logs", exist_ok=True)
-logger = logging.getLogger("bot")
-logger.setLevel(logging.INFO)
+CHANNEL_ID = int(os.getenv("CHANNEL_ID", "0"))
 
-file_handler = logging.FileHandler(filename="logs/bot.log", encoding="utf-8", mode="a")
-file_handler.setFormatter(logging.Formatter("%(asctime)s:%(levelname)s:%(name)s: %(message)s"))
+@bot.event
+async def on_ready():
+    print(f"Bot conectado como {bot.user}")
+    # Tenta carregar a cog da Gun Van
+    try:
+        await bot.load_extension("cogs.gunvan")
+        print("Cog da Gun Van carregada com sucesso!")
+    except Exception as e:
+        print(f"Erro ao carregar cog: {e}")
 
-stream_handler = logging.StreamHandler()
-stream_handler.setFormatter(logging.Formatter("%(asctime)s:%(levelname)s:%(name)s: %(message)s"))
+# --- MINI SERVIDOR WEB PARA O RENDER ---
+async def handle(request):
+    return web.Response(text="Bot da Gun Van está online e pronto!")
 
-logger.addHandler(file_handler)
-logger.addHandler(stream_handler)
-
-
-class GunVanBot(commands.Bot):
-    def __init__(self):
-        intents = discord.Intents.default()
-        super().__init__(command_prefix="!", intents=intents)
-        self.logger = logger
-
-    async def setup_hook(self):
-        await self.load_extension("cogs.gunvan")
-        try:
-            synced = await self.tree.sync()
-            self.logger.info(f"Sincronizados {len(synced)} comandos de barra.")
-        except Exception as e:
-            self.logger.error(f"Erro ao sincronizar comandos: {e}")
-
-    async def on_ready(self):
-        self.logger.info(f"Bot conectado com sucesso como {self.user} (ID: {self.user.id})")
-        await self.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name="a Gun Van do GTA"))
-
+async def start_web_server():
+    app = web.Application()
+    app.router.add_get("/", handle)
+    runner = web.AppRunner(app)
+    await runner.setup()
+    
+    # O Render exige que usemos a porta que ele define na variável 'PORT'
+    port = int(os.environ.get("PORT", 8080))
+    site = web.TCPSite(runner, "0.0.0.0", port)
+    await site.start()
+    print(f"Servidor web rodando na porta {port}")
 
 async def main():
-    if not TOKEN:
-        logger.critical("Token do Discord não encontrado!")
-        return
-
-    bot = GunVanBot()
-    async with bot:
-        await bot.start(TOKEN)
-
+    # Inicia o servidor web e o bot ao mesmo tempo
+    await start_web_server()
+    token = os.getenv("DISCORD_TOKEN")
+    if token:
+        await bot.start(token)
 
 if __name__ == "__main__":
-    try:
-        asyncio.run(main())
-    except KeyboardInterrupt:
-        logger.info("Bot encerrado manualmente.")
-
+    asyncio.run(main())

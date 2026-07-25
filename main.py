@@ -11,51 +11,32 @@ intents.presences = True
 
 bot = commands.Bot(command_prefix="!", intents=intents)
 
-CHANNEL_ID = int(os.getenv("CHANNEL_ID", "0"))
-
 @bot.event
 async def on_ready():
-    print(f"Bot conectado com sucesso como {bot.user}!")
+    print(f"CONECTADO COM SUCESSO COMO: {bot.user}")
     try:
         await bot.load_extension("cogs.gunvan")
-        print("Cog da Gun Van carregada com sucesso!")
-
-        await bot.load_extension("cogs.rockstar_news")
-        print("Cog de Notícias da Rockstar carregada com sucesso!")
-
-        GUILD_ID = discord.Object(id=1529337265019551879) 
+        print("Cog Gunvan carregada!")
         
-        # Limpa os comandos antigos da guilda e sincroniza os atuais limpos
+        await bot.load_extension("cogs.rockstar_news")
+        print("Cog Rockstar carregada!")
+
+        GUILD_ID = discord.Object(id=1529337265019551879)
         bot.tree.clear_commands(guild=GUILD_ID)
         bot.tree.copy_global_to(guild=GUILD_ID)
         synced = await bot.tree.sync(guild=GUILD_ID)
-        print(f"Comandos sincronizados instantaneamente: {len(synced)} comandos.")
-
+        print(f"COMANDOS SINCRONIZADOS: {len(synced)}")
     except Exception as e:
-        print(f"Erro ao carregar cog ou sincronizar: {e}")
-
-
-# === COLOQUE EXATAMENTE ESTE BLOCO AQUI EMBAIXO ===
-@bot.command()
-async def sync(ctx):
-    try:
-        # Sincroniza instantaneamente no servidor onde o comando foi digitado
-        bot.tree.copy_global_to(guild=ctx.guild)
-        synced = await bot.tree.sync(guild=ctx.guild)
-        await ctx.send(f"✅ Sincronizados {len(synced)} comandos com sucesso neste servidor!")
-    except Exception as e:
-        await ctx.send(f"❌ Erro ao sincronizar: {e}")
-# =================================================
+        print(f"ERRO CRÍTICO NO ON_READY: {e}")
 
 async def handle(request):
-    return web.Response(text="Bot da Gun Van está online e rodando!")
+    return web.Response(text="Bot online!")
 
 async def start_web_server():
     app = web.Application()
     app.router.add_get("/", handle)
     runner = web.AppRunner(app)
     await runner.setup()
-
     port = int(os.environ.get("PORT", 8080))
     site = web.TCPSite(runner, "0.0.0.0", port)
     await site.start()
@@ -63,13 +44,12 @@ async def start_web_server():
 
 async def main():
     web_task = asyncio.create_task(start_web_server())
-
     token = os.getenv("DISCORD_TOKEN")
     if token:
         bot_task = asyncio.create_task(bot.start(token))
         await asyncio.gather(web_task, bot_task)
     else:
-        print("ERRO: Token do Discord não configurado nas variáveis de ambiente.")
+        print("ERRO: DISCORD_TOKEN não encontrado!")
 
 if __name__ == "__main__":
     asyncio.run(main())

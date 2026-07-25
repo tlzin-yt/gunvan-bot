@@ -38,7 +38,7 @@ class GunVanCog(commands.Cog):
         )
         embed.add_field(name="📍 Localização", value=data["location"], inline=False)
         embed.add_field(name="📅 Data", value=datetime.now().strftime("%d/%m/%Y"), inline=True)
-        embed.set_image(url=data["image_url"])
+        embed.set_image(url="https://cdn.discordapp.com/attachments/1529474596368285832/1530378142148198541/gta-v-agency-suv-service-dropoff-location-maps-quick-travel-v0-tmsu6d1lbzca1_1.png?ex=6a655b36&is=6a6409b6&hm=4f8520bfa43f6c9829ced6548db02b5f18deb7dd7d789f451aa7066035187c1e&")
         embed.add_field(name="🔗 Link", value="[Acessar GTAMap](https://gtamap.net/map/gtao?city=ls&layer=game&groups=gun_van)", inline=False)
         embed.set_footer(text="Atualização automática diária")
 
@@ -61,7 +61,7 @@ class GunVanCog(commands.Cog):
         )
         embed.add_field(name="📍 Localização", value=data["location"], inline=False)
         embed.add_field(name="📅 Data", value=datetime.now().strftime("%d/%m/%Y"), inline=True)
-        embed.set_image(url=data["image_url"])
+        embed.set_image(url="https://cdn.discordapp.com/attachments/1529474596368285832/1530378142148198541/gta-v-agency-suv-service-dropoff-location-maps-quick-travel-v0-tmsu6d1lbzca1_1.png?ex=6a655b36&is=6a6409b6&hm=4f8520bfa43f6c9829ced6548db02b5f18deb7dd7d789f451aa7066035187c1e&")
         embed.add_field(name="🔗 Link", value="[Acessar GTAMap](https://gtamap.net/map/gtao?city=ls&layer=game&groups=gun_van)", inline=False)
         embed.set_footer(text="Solicitado via comando /gunvan")
 

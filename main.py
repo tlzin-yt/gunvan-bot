@@ -23,12 +23,13 @@ async def on_ready():
         await bot.load_extension("cogs.rockstar_news")
         print("Cog de Notícias da Rockstar carregada com sucesso!")
 
-        # Sincroniza os comandos no Discord
-        await bot.tree.sync()
-        print("Comandos de barra sincronizados com sucesso!")
+        # Sincroniza os comandos globalmente e para o bot instantaneamente
+        synced = await bot.tree.sync()
+        print(f"Comandos de barra sincronizados com sucesso: {len(synced)} comandos.")
 
     except Exception as e:
         print(f"Erro ao carregar cog ou sincronizar: {e}")
+
 
 # === COLOQUE EXATAMENTE ESTE BLOCO AQUI EMBAIXO ===
 @bot.command()

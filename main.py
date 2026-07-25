@@ -34,8 +34,10 @@ async def on_ready():
 @bot.command()
 async def sync(ctx):
     try:
-        synced = await bot.tree.sync()
-        await ctx.send(f"✅ Sincronizados {len(synced)} comandos com sucesso!")
+        # Sincroniza instantaneamente no servidor onde o comando foi digitado
+        bot.tree.copy_global_to(guild=ctx.guild)
+        synced = await bot.tree.sync(guild=ctx.guild)
+        await ctx.send(f"✅ Sincronizados {len(synced)} comandos com sucesso neste servidor!")
     except Exception as e:
         await ctx.send(f"❌ Erro ao sincronizar: {e}")
 # =================================================

@@ -20,7 +20,6 @@ async def on_ready():
         await bot.load_extension("cogs.gunvan")
         print("Cog da Gun Van carregada com sucesso!")
 
-        # Cog de notícias da Rockstar adicionada aqui:
         await bot.load_extension("cogs.rockstar_news")
         print("Cog de Notícias da Rockstar carregada com sucesso!")
 
@@ -30,6 +29,16 @@ async def on_ready():
 
     except Exception as e:
         print(f"Erro ao carregar cog ou sincronizar: {e}")
+
+# === COLOQUE EXATAMENTE ESTE BLOCO AQUI EMBAIXO ===
+@bot.command()
+async def sync(ctx):
+    try:
+        synced = await bot.tree.sync()
+        await ctx.send(f"✅ Sincronizados {len(synced)} comandos com sucesso!")
+    except Exception as e:
+        await ctx.send(f"❌ Erro ao sincronizar: {e}")
+# =================================================
 
 async def handle(request):
     return web.Response(text="Bot da Gun Van está online e rodando!")

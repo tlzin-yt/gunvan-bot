@@ -19,8 +19,13 @@ async def on_ready():
     try:
         await bot.load_extension("cogs.gunvan")
         print("Cog da Gun Van carregada com sucesso!")
+        
+        # Sincroniza os comandos no Discord
+        await bot.tree.sync()
+        print("Comandos de barra sincronizados com sucesso!")
+        
     except Exception as e:
-        print(f"Erro ao carregar cog: {e}")
+        print(f"Erro ao carregar cog ou sincronizar: {e}")
 
 async def handle(request):
     return web.Response(text="Bot da Gun Van está online e rodando!")

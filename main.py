@@ -23,12 +23,16 @@ async def on_ready():
         await bot.load_extension("cogs.rockstar_news")
         print("Cog de Notícias da Rockstar carregada com sucesso!")
 
-        # Sincroniza os comandos globalmente e para o bot instantaneamente
-        synced = await bot.tree.sync()
-        print(f"Comandos de barra sincronizados com sucesso: {len(synced)} comandos.")
+        # Substitua 123456789012345678 pelo ID REAL do seu servidor do Discord
+        GUILD_ID = discord.Object(id=1529337265019551879) 
+        
+        bot.tree.copy_global_to(guild=GUILD_ID)
+        synced = await bot.tree.sync(guild=GUILD_ID)
+        print(f"Comandos sincronizados instantaneamente: {len(synced)} comandos.")
 
     except Exception as e:
         print(f"Erro ao carregar cog ou sincronizar: {e}")
+
 
 
 # === COLOQUE EXATAMENTE ESTE BLOCO AQUI EMBAIXO ===

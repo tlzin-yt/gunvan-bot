@@ -5,10 +5,10 @@ from bs4 import BeautifulSoup
 logger = logging.getLogger("bot")
 
 def fetch_latest_rockstar_news():
-    # URL oficial de notícias do GTA Online na Rockstar Games
     url = "https://www.rockstargames.com/gta-online/newswire"
     headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
+        "Accept-Language": "pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.9"
     }
     
     try:
@@ -17,41 +17,42 @@ def fetch_latest_rockstar_news():
         
         soup = BeautifulSoup(response.text, "html.parser")
         
-        # O site da Rockstar utiliza elementos estruturados; tentamos pegar a primeira notícia em destaque
-        # Como alternativa segura e estável para JSON/RSS da Rockstar:
-        rss_url = "https://www.rockstargames.com/newswire/feed.xml"
-        rss_response = requests.get(rss_url, headers=headers, timeout=15)
+        # Tenta buscar os dados estruturados do site da Rockstar
+        # Buscando o primeiro card de notícia principal
+        article = soup.find("article") or soup.find("div", class_="news-article")
         
-        if rss_response.status_code == 200:
-            rss_soup = BeautifulSoup(rss_response.text, "xml")
-            item = rss_soup.find("item")
-            
-            if item:
-                title = item.find("title").text if item.find("title") else "Nova Notícia da Rockstar"
-                link = item.find("link").text if item.find("link") else "https://www.rockstargames.com/gta-online/newswire"
-                pub_date = item.find("pubDate").text if item.find("pubDate") else ""
+        title = "Nova Atualização do GTA Online"
+        link = url
+        image_url = "https://i.imgur.com/4X1kR5W.png"
+        date = "Recente"
+
+        if article:
+            title_tag = article.find("h3") or article.find("h2")
+            if title_tag:
+                title = title_tag.text.strip()
                 
-                # Tenta achar a imagem dentro do conteúdo ou descrição do RSS
-                description = item.find("description")
-                image_url = "https://i.imgur.com/4X1kR5W.png" # Imagem padrão caso não ache
-                if description:
-                    desc_soup = BeautifulSoup(description.text, "html.parser")
-                    img_tag = desc_soup.find("img")
-                    if img_tag and img_tag.get("src"):
-                        image_url = img_tag.get("src")
+            link_tag = article.find("a", href=True)
+            if link_tag:
+                href = link_tag["href"]
+                link = href if href.startswith("http") else f"https://www.rockstargames.com{href}"
+                
+            img_tag = article.find("img")
+            if img_tag and img_tag.get("src"):
+                image_url = img_tag.get("src")
 
-                return {
-                    "success": True,
-                    "title": title,
-                    "link": link,
-                    "date": pub_date[:16], # Corta para exibir data/hora limpa
-                    "image_url": image_url
-                }
+            date_tag = article.find("time")
+            if date_tag:
+                date = date_tag.text.strip()
 
-        return {"success": False, "error": "Nenhuma notícia encontrada no feed."}
+        return {
+            "success": True,
+            "title": title,
+            "link": link,
+            "date": date,
+            "image_url": image_url
+        }
 
     except Exception as e:
         logger.error(f"Erro ao buscar notícias da Rockstar: {e}")
         return {"success": False, "error": str(e)}
-
 

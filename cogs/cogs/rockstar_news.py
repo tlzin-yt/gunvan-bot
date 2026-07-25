@@ -18,7 +18,7 @@ class RockstarNews(commands.Cog):
         await self.bot.wait_until_ready()
         
         # Substitua pelo ID do canal do Discord onde quer que as notícias sejam enviadas automaticamente
-        CHANNEL_ID = 123456789012345678  # COLOQUE O ID DO SEU CANAL AQUI
+        CHANNEL_ID = 1529481189730160711  # COLOQUE O ID DO SEU CANAL AQUI
         
         channel = self.bot.get_channel(CHANNEL_ID)
         if not channel:

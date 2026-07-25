@@ -12,21 +12,17 @@ class RockstarNews(commands.Cog):
     def cog_unload(self):
         self.check_news_loop.cancel()
 
-    # Tarefa em segundo plano que verifica novas notícias a cada 1 hora
     @tasks.loop(hours=1.0)
     async def check_news_loop(self):
         await self.bot.wait_until_ready()
         
-        # Substitua pelo ID do canal do Discord onde quer que as notícias sejam enviadas automaticamente
-        CHANNEL_ID = 1529481189730160711  # COLOQUE O ID DO SEU CANAL AQUI
-        
+        CHANNEL_ID = 1529481189730160711
         channel = self.bot.get_channel(CHANNEL_ID)
         if not channel:
             return
 
         news = fetch_latest_rockstar_news()
         if news["success"]:
-            # Evita postar a mesma notícia repetidamente comparando pelo título
             if news["title"] != self.last_news_title:
                 self.last_news_title = news["title"]
                 
@@ -43,8 +39,10 @@ class RockstarNews(commands.Cog):
 
     @app_commands.command(name="rockstar", description="Mostra a última notícia oficial lançada pela Rockstar Games")
     async def rockstar_command(self, interaction: discord.Interaction):
+        # Adia a resposta imediatamente para o Discord não dar timeout
         await interaction.response.defer(thinking=True)
         
+        # Faz a busca da notícia de forma segura
         news = fetch_latest_rockstar_news()
         
         if not news["success"]:
@@ -64,4 +62,3 @@ class RockstarNews(commands.Cog):
 
 async def setup(bot):
     await bot.add_cog(RockstarNews(bot))
-

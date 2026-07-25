@@ -1,4 +1,4 @@
- import os
+import os
 import asyncio
 from aiohttp import web
 from discord.ext import commands
@@ -37,10 +37,8 @@ async def start_web_server():
     print(f"Servidor web rodando na porta {port}")
 
 async def main():
-    # Inicia o servidor web em segundo plano
     web_task = asyncio.create_task(start_web_server())
     
-    # Inicia o bot do Discord
     token = os.getenv("DISCORD_TOKEN")
     if token:
         bot_task = asyncio.create_task(bot.start(token))

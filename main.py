@@ -19,11 +19,15 @@ async def on_ready():
     try:
         await bot.load_extension("cogs.gunvan")
         print("Cog da Gun Van carregada com sucesso!")
-        
+
+        # Cog de notícias da Rockstar adicionada aqui:
+        await bot.load_extension("cogs.rockstar_news")
+        print("Cog de Notícias da Rockstar carregada com sucesso!")
+
         # Sincroniza os comandos no Discord
         await bot.tree.sync()
         print("Comandos de barra sincronizados com sucesso!")
-        
+
     except Exception as e:
         print(f"Erro ao carregar cog ou sincronizar: {e}")
 
@@ -35,7 +39,7 @@ async def start_web_server():
     app.router.add_get("/", handle)
     runner = web.AppRunner(app)
     await runner.setup()
-    
+
     port = int(os.environ.get("PORT", 8080))
     site = web.TCPSite(runner, "0.0.0.0", port)
     await site.start()
@@ -43,7 +47,7 @@ async def start_web_server():
 
 async def main():
     web_task = asyncio.create_task(start_web_server())
-    
+
     token = os.getenv("DISCORD_TOKEN")
     if token:
         bot_task = asyncio.create_task(bot.start(token))

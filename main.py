@@ -4,9 +4,9 @@ from aiohttp import web
 from discord.ext import commands
 import discord
 
-# Servidor web obrigatório para o Render manter o bot ativo
+# Servidor web para o Render manter o serviço ativo
 async def handle(request):
-    return web.Response(text="Bot da Gun Van e Rockstar online!")
+    return web.Response(text="Bot da Gun Van online!")
 
 async def start_web_server():
     app = web.Application()
@@ -19,7 +19,7 @@ async def start_web_server():
     await site.start()
     print(f"Servidor web rodando na porta {port}")
 
-# Configuração do Bot
+# Configuração do Bot do Discord
 intents = discord.Intents.default()
 intents.message_content = True
 intents.members = True
@@ -30,30 +30,26 @@ bot = commands.Bot(command_prefix="!", intents=intents)
 async def on_ready():
     print(f"Bot conectado como {bot.user}!")
     try:
-        # Carrega a Cog da Gun Van
+        # Carrega APENAS a cog da Gun Van
         await bot.load_extension("cogs.gunvan")
         print("Cog da Gun Van carregada com sucesso!")
 
-        # Carrega a Cog de Notícias da Rockstar
-        await bot.load_extension("cogs.rockstar_news")
-        print("Cog da Rockstar carregada com sucesso!")
-
-        # Sincroniza os comandos no seu servidor instantaneamente
+        # Sincroniza os comandos no seu servidor
         GUILD_ID = discord.Object(id=1529337265019551879) 
         bot.tree.clear_commands(guild=GUILD_ID)
         bot.tree.copy_global_to(guild=GUILD_ID)
         synced = await bot.tree.sync(guild=GUILD_ID)
-        print(f"Comandos sincronizados com sucesso: {len(synced)}")
+        print(f"Comandos sincronizados: {len(synced)}")
         
     except Exception as e:
-        print(f"Erro ao carregar ou sincronizar: {e}")
+        print(f"Erro ao carregar a cog da Gun Van: {e}")
 
 async def main():
     web_task = asyncio.create_task(start_web_server())
     
     token = os.getenv("DISCORD_TOKEN")
     if not token:
-        print("ERRO: DISCORD_TOKEN não configurado nas variáveis de ambiente!")
+        print("ERRO: DISCORD_TOKEN não configurado!")
         return
 
     bot_task = asyncio.create_task(bot.start(token))

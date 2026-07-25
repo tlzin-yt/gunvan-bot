@@ -39,7 +39,7 @@ class GunVanCog(commands.Cog):
         embed.add_field(name="📍 Localização", value=data["location"], inline=False)
         embed.add_field(name="📅 Data", value=datetime.now().strftime("%d/%m/%Y"), inline=True)
         embed.set_image(url=data["image_url"])
-        embed.add_field(name="🔗 Link", value=f"[Acessar GTAMap]({data['link']})", inline=False)
+        embed.add_field(name="🔗 Link", value="[Acessar GTAMap](https://gtamap.net/map/gtao?city=ls&layer=game&groups=gun_van)", inline=False)
         embed.set_footer(text="Atualização automática diária")
 
         await channel.send(content="🚨 **Atualização diária da Gun Van disponível!**", embed=embed)
@@ -62,7 +62,7 @@ class GunVanCog(commands.Cog):
         embed.add_field(name="📍 Localização", value=data["location"], inline=False)
         embed.add_field(name="📅 Data", value=datetime.now().strftime("%d/%m/%Y"), inline=True)
         embed.set_image(url=data["image_url"])
-        embed.add_field(name="🔗 Link", value=f"[Acessar GTAMap]({data['link']})", inline=False)
+        embed.add_field(name="🔗 Link", value="[Acessar GTAMap](https://gtamap.net/map/gtao?city=ls&layer=game&groups=gun_van)", inline=False)
         embed.set_footer(text="Solicitado via comando /gunvan")
 
         await interaction.followup.send(embed=embed)

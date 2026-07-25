@@ -4,6 +4,23 @@ from aiohttp import web
 from discord.ext import commands
 import discord
 
+# Configuração básica do Servidor Web para o Render não derrubar o bot
+async def handle(request):
+    return web.Response(text="Bot está online!")
+
+async def start_web_server():
+    app = web.Application()
+    app.router.add_get("/", handle)
+    runner = web.AppRunner(app)
+    await runner.setup()
+    
+    # O Render usa a porta dinâmica da variável PORT ou 10000 por padrão
+    port = int(os.environ.get("PORT", 10000))
+    site = web.TCPSite(runner, "0.0.0.0", port)
+    await site.start()
+    print(f"Servidor web rodando na porta {port}")
+
+# Configuração do Bot do Discord
 intents = discord.Intents.default()
 intents.message_content = True
 intents.members = True
@@ -13,43 +30,45 @@ bot = commands.Bot(command_prefix="!", intents=intents)
 
 @bot.event
 async def on_ready():
-    print(f"CONECTADO COM SUCESSO COMO: {bot.user}")
+    print(f"Bot conectado com sucesso como {bot.user}!")
     try:
         await bot.load_extension("cogs.gunvan")
-        print("Cog Gunvan carregada!")
-        
-        await bot.load_extension("cogs.rockstar_news")
-        print("Cog Rockstar carregada!")
+        print("Cog da Gun Van carregada!")
 
-        GUILD_ID = discord.Object(id=1529337265019551879)
+        await bot.load_extension("cogs.rockstar_news")
+        print("Cog da Rockstar carregada!")
+
+        GUILD_ID = discord.Object(id=1529337265019551879) 
         bot.tree.clear_commands(guild=GUILD_ID)
         bot.tree.copy_global_to(guild=GUILD_ID)
         synced = await bot.tree.sync(guild=GUILD_ID)
-        print(f"COMANDOS SINCRONIZADOS: {len(synced)}")
+        print(f"Comandos sincronizados: {len(synced)}")
     except Exception as e:
-        print(f"ERRO CRÍTICO NO ON_READY: {e}")
+        print(f"Erro ao carregar extensões: {e}")
 
-async def handle(request):
-    return web.Response(text="Bot online!")
+@bot.command()
+async def sync(ctx):
+    try:
+        bot.tree.copy_global_to(guild=ctx.guild)
+        synced = await bot.tree.sync(guild=ctx.guild)
+        await ctx.send(f"✅ Sincronizados {len(synced)} comandos neste servidor!")
+    except Exception as e:
+        await ctx.send(f"❌ Erro ao sincronizar: {e}")
 
-async def start_web_server():
-    app = web.Application()
-    app.router.add_get("/", handle)
-    runner = web.AppRunner(app)
-    await runner.setup()
-    port = int(os.environ.get("PORT", 8080))
-    site = web.TCPSite(runner, "0.0.0.0", port)
-    await site.start()
-    print(f"Servidor web rodando na porta {port}")
-
+# Função Principal que inicia os dois serviços juntos sem conflito
 async def main():
+    # Inicia o servidor web primeiro para o Render aceitar o deploy na hora
     web_task = asyncio.create_task(start_web_server())
+    
     token = os.getenv("DISCORD_TOKEN")
-    if token:
-        bot_task = asyncio.create_task(bot.start(token))
-        await asyncio.gather(web_task, bot_task)
-    else:
-        print("ERRO: DISCORD_TOKEN não encontrado!")
+    if not token:
+        print("ERRO: DISCORD_TOKEN não configurado!")
+        return
+
+    # Inicia o bot do Discord em segundo plano
+    bot_task = asyncio.create_task(bot.start(token))
+    
+    await asyncio.gather(web_task, bot_task)
 
 if __name__ == "__main__":
     asyncio.run(main())

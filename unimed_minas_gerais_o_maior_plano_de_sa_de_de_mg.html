@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unimed-BH - A Maior Rede de Saúde de Minas Gerais</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        unimed: {
+                            green: '#00995D',
+                            darkGreen: '#00663e',
+                            lightGreen: '#e6f5ef',
+                            accent: '#F2A900',
+                            grayBg: '#F8FAFC'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
+    </style>
+</head>
+<body class="bg-unimed-grayBg font-sans text-slate-800 antialiased selection:bg-unimed-green selection:text-white">
+
+    <!-- Top Utility Bar -->
+    <div class="bg-unimed-darkGreen text-white text-xs py-2 px-4">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-2">
+            <div class="flex items-center gap-4">
+                <span><i class="fa-solid fa-location-dot text-unimed-accent mr-1"></i> Líder em Saúde em Belo Horizonte e MG</span>
+                <span class="hidden sm:inline">|</span>
+                <span class="hidden sm:inline"><i class="fa-solid fa-phone mr-1"></i> Central Unimed-BH: 0800 030 3000</span>
+            </div>
+            <div class="flex items-center gap-4">
+                <a href="#emergencia" class="hover:underline text-red-300 font-semibold flex items-center gap-1">
+                    <span class="w-2 h-2 rounded-full bg-red-400 animate-ping"></span>
+                    Pronto Socorro 24h
+                </a>
+                <a href="#portal" class="hover:underline text-slate-200"><i class="fa-solid fa-user-lock mr-1"></i> Área do Cliente</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Navigation Header -->
+    <header class="sticky top-0 z-50 bg-white shadow-md border-b border-slate-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <div class="flex items-center gap-3">
+                    <div class="bg-unimed-green text-white p-3 rounded-xl font-black text-2xl tracking-wider shadow-md">
+                        Unimed
+                    </div>
+                    <div class="hidden sm:block border-l border-slate-300 pl-3">
+                        <p class="text-xs font-bold text-unimed-darkGreen uppercase tracking-wider">Unimed-BH</p>
+                        <p class="text-[10px] text-slate-500">Belo Horizonte & Região Metropolitana</p>
+                    </div>
+                </div>
+
+                <!-- Desktop Nav Links -->
+                <nav class="hidden lg:flex items-center gap-8 font-medium text-sm text-slate-700">
+                    <a href="#inicio" class="hover:text-unimed-green transition-colors">Início</a>
+                    <a href="#planos" class="hover:text-unimed-green transition-colors">Planos de Saúde</a>
+                    <a href="#unidades" class="hover:text-unimed-green transition-colors">Rede de Hospitais</a>
+                    <a href="#modelos" class="hover:text-unimed-green transition-colors">Modelos de Contratação</a>
+                    <a href="#guia-medico" class="hover:text-unimed-green transition-colors">Guia Médico</a>
+                </nav>
+
+                <!-- Actions Button -->
+                <div class="hidden md:flex items-center gap-3">
+                    <a href="#simulador" class="bg-unimed-green hover:bg-unimed-darkGreen text-white font-semibold px-5 py-2.5 rounded-xl shadow-lg shadow-unimed-green/20 transition-all flex items-center gap-2 text-sm">
+                        <i class="fa-solid fa-calculator"></i> Simular Plano
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-btn" class="lg:hidden text-slate-700 hover:text-unimed-green p-2 text-2xl focus:outline-none">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-white border-t border-slate-100 px-4 pt-2 pb-6 space-y-3">
+            <a href="#inicio" class="block py-2 text-slate-700 font-medium hover:text-unimed-green">Início</a>
+            <a href="#planos" class="block py-2 text-slate-700 font-medium hover:text-unimed-green">Planos de Saúde</a>
+            <a href="#unidades" class="block py-2 text-slate-700 font-medium hover:text-unimed-green">Rede de Hospitais</a>
+            <a href="#modelos" class="block py-2 text-slate-700 font-medium hover:text-unimed-green">Modelos de Contratação</a>
+            <a href="#guia-medico" class="block py-2 text-slate-700 font-medium hover:text-unimed-green">Guia Médico</a>
+            <a href="#simulador" class="block text-center bg-unimed-green text-white font-semibold py-3 rounded-xl mt-4">
+                Simular Plano de Saúde
+            </a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="inicio" class="relative bg-gradient-to-br from-unimed-darkGreen via-unimed-green to-teal-800 text-white overflow-hidden py-16 lg:py-24">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid lg:grid-cols-12 gap-12 items-center">
+                
+                <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                    <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md px-4 py-2 rounded-full border border-white/20 text-xs sm:text-sm font-medium text-unimed-accent">
+                        <i class="fa-solid fa-shield-halved"></i> A Maior e Melhor Operadora de Saúde de MG
+                    </div>
+                    <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold leading-tight">
+                        Hospital Unimed-BH.<br><span class="text-unimed-accent">Planos sob medida para você.</span>
+                    </h1>
+                    <p class="text-base sm:text-lg text-emerald-50 max-w-2xl font-light">
+                        Mais de 5,2 mil médicos cooperados, a maior rede própria de hospitais, centros de promoção da saúde e pronto atendimento 24h na Grande BH e em toda Minas Gerais.
+                    </p>
+                    
+                    <div class="pt-4 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                        <a href="#planos" class="bg-unimed-accent hover:bg-yellow-500 text-slate-900 font-bold px-8 py-4 rounded-xl shadow-lg transition-all text-center">
+                            Ver Planos Unimed-BH
+                        </a>
+                        <a href="#simulador" class="bg-white/10 hover:bg-white/20 text-white font-semibold border border-white/30 px-8 py-4 rounded-xl backdrop-blur-md transition-all text-center">
+                            Simular Valores
+                        </a>
+                    </div>
+
+                    <!-- Key stats badge -->
+                    <div class="grid grid-cols-3 gap-4 pt-8 border-t border-white/20 text-center lg:text-left">
+                        <div>
+                            <p class="text-2xl sm:text-3xl font-extrabold text-white">+5,2 mil</p>
+                            <p class="text-xs text-emerald-100">Médicos Cooperados</p>
+                        </div>
+                        <div>
+                            <p class="text-2xl sm:text-3xl font-extrabold text-white">+39</p>
+                            <p class="text-xs text-emerald-100">Hospitais na Rede</p>
+                        </div>
+                        <div>
+                            <p class="text-2xl sm:text-3xl font-extrabold text-white">24/7</p>
+                            <p class="text-xs text-emerald-100">Clínica On-line & Urgência</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Fast Quote / Quick Contact Card -->
+                <div class="lg:col-span-5" id="simulador">
+                    <div class="glass-card text-slate-800 rounded-3xl p-6 sm:p-8 shadow-2xl border border-white">
+                        <h3 class="text-xl font-bold text-unimed-darkGreen mb-1 flex items-center gap-2">
+                            <i class="fa-solid fa-calculator text-unimed-green"></i> Simulador de Planos Unimed-BH
+                        </h3>
+                        <p class="text-xs text-slate-500 mb-6">Calcule o valor do seu plano individual, familiar ou empresarial.</p>
+
+                        <form id="quoteForm" class="space-y-4" onsubmit="handleQuoteSubmit(event)">
+                            <div>
+                                <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Modelo do Contrato</label>
+                                <select id="modelType" class="w-full bg-slate-50 border border-slate-300 text-slate-800 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-unimed-green">
+                                    <option value="pf">Pessoa Física (Individual / Familiar)</option>
+                                    <option value="mei">MEI / PME (1 a 29 pessoas)</option>
+                                    <option value="pj">Empresarial (Acima de 30 pessoas)</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Escolha o Plano Unimed-BH</label>
+                                <select id="planType" class="w-full bg-slate-50 border border-slate-300 text-slate-800 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-unimed-green">
+                                    <option value="unifacil">Unifácil (A partir de R$ 99,72/mês)</option>
+                                    <option value="pleno">Unimed Pleno (A partir de R$ 104,23/mês)</option>
+                                    <option value="bemdigital">Bem Digital (Telemedicina 24h + Rede Exclusiva)</option>
+                                    <option value="unipart">Unipart Flex (Ampla Escolha & Coparticipação)</option>
+                                    <option value="unimax">Unimax (Sem Coparticipação - Cobertura Total)</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Faixa Etária do Titular</label>
+                                <select id="ageGroup" class="w-full bg-slate-50 border border-slate-300 text-slate-800 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-unimed-green">
+                                    <option value="0-18">0 a 18 anos</option>
+                                    <option value="19-23">19 a 23 anos</option>
+                                    <option value="24-28">24 a 28 anos</option>
+                                    <option value="29-33">29 a 33 anos</option>
+                                    <option value="34-43">34 a 43 anos</option>
+                                    <option value="44-58">44 a 58 anos</option>
+                                    <option value="59+">59 anos ou mais</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Seu Nome e WhatsApp</label>
+                                <div class="grid grid-cols-2 gap-2">
+                                    <input type="text" placeholder="Nome" required class="bg-slate-50 border border-slate-300 rounded-xl px-3 py-2.5 text-xs focus:ring-2 focus:ring-unimed-green focus:outline-none">
+                                    <input type="tel" placeholder="(31) 90000-0000" required class="bg-slate-50 border border-slate-300 rounded-xl px-3 py-2.5 text-xs focus:ring-2 focus:ring-unimed-green focus:outline-none">
+                                </div>
+                            </div>
+
+                            <button type="submit" class="w-full bg-unimed-green hover:bg-unimed-darkGreen text-white font-bold py-3.5 rounded-xl shadow-md transition-all text-sm flex items-center justify-center gap-2 mt-2">
+                                <i class="fa-solid fa-paper-plane"></i> Receber Cotação Completa
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Contract Models Section -->
+    <section id="modelos" class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-12">
+            <span class="text-unimed-green font-bold text-xs uppercase tracking-widest bg-unimed-lightGreen px-3 py-1 rounded-full">Formatos de Contratação</span>
+            <h2 class="text-3xl font-extrabold text-slate-900 mt-3">Modelos de Contratação Unimed-BH</h2>
+            <p class="text-slate-600 mt-2 text-sm">Opções flexíveis desenhadas para perfis individuais, famílias e negócios em Belo Horizonte e região.</p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-6">
+            <!-- Model 1 -->
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all">
+                <div class="w-12 h-12 bg-emerald-100 text-unimed-green rounded-xl flex items-center justify-center text-xl mb-4 font-bold">
+                    <i class="fa-solid fa-user-group"></i>
+                </div>
+                <h3 class="text-lg font-bold text-slate-900">Individual e Familiar (CPF)</h3>
+                <p class="text-slate-500 text-xs mt-2 leading-relaxed">
+                    Acesso para você e seus dependentes. Proteção médica completa com atração de plano com coparticipação reduzida ou atendimento direcionado.
+                </p>
+                <div class="mt-4 pt-3 border-t border-slate-100 text-xs text-unimed-green font-semibold">
+                    A partir de R$ 99,72 / mês
+                </div>
+            </div>
+
+            <!-- Model 2 -->
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all">
+                <div class="w-12 h-12 bg-amber-100 text-amber-600 rounded-xl flex items-center justify-center text-xl mb-4 font-bold">
+                    <i class="fa-solid fa-briefcase"></i>
+                </div>
+                <h3 class="text-lg font-bold text-slate-900">MEI e PME (1 a 29 vidas)</h3>
+                <p class="text-slate-500 text-xs mt-2 leading-relaxed">
+                    Contratação por CNPJ ou MEI a partir de 1 titular + dependentes. Valores com desconto em relação aos planos individuais do mercado.
+                </p>
+                <div class="mt-4 pt-3 border-t border-slate-100 text-xs text-amber-600 font-semibold">
+                    Descontos exclusivos por CNPJ
+                </div>
+            </div>
+
+            <!-- Model 3 -->
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all">
+                <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center text-xl mb-4 font-bold">
+                    <i class="fa-solid fa-building"></i>
+                </div>
+                <h3 class="text-lg font-bold text-slate-900">Empresarial (30+ vidas)</h3>
+                <p class="text-slate-500 text-xs mt-2 leading-relaxed">
+                    Para médias e grandes empresas. Isenção total de carências na implantação, gestão corporativa de saúde e consultor exclusivo.
+                </p>
+                <div class="mt-4 pt-3 border-t border-slate-100 text-xs text-blue-600 font-semibold">
+                    Isenção de Carência + Consultor Executivo
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Specific Health Plans Available -->
+    <section id="planos" class="py-16 bg-slate-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <span class="text-unimed-green font-bold text-xs uppercase tracking-widest bg-unimed-lightGreen px-3 py-1 rounded-full">Linha de Produtos Unimed-BH</span>
+                <h2 class="text-3xl font-extrabold text-slate-900 mt-3">Catálogo Oficial de Planos de Saúde</h2>
+                <p class="text-slate-600 mt-2 text-sm">Escolha a estrutura de atendimento e o formato de pagamento ideal.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- Plan 1: Unifácil -->
+                <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm hover:shadow-xl transition-all flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs font-bold text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full uppercase">Rede Preferencial</span>
+                            <span class="text-xs font-semibold text-slate-500">Enfermaria</span>
+                        </div>
+                        <h3 class="text-2xl font-bold text-slate-900 mt-3">Unifácil</h3>
+                        <p class="text-slate-500 text-xs mt-2">Investimento sob medida com rede preferencial e atendimento em mais de 25 hospitais em BH e região.</p>
+                        
+                        <div class="my-4 p-3 bg-slate-50 rounded-xl border border-slate-100">
+                            <p class="text-xs text-slate-500">Mensalidades a partir de</p>
+                            <p class="text-2xl font-extrabold text-unimed-green">R$ 99,<span class="text-base">72 /mês</span></p>
+                        </div>
+
+                        <ul class="space-y-2.5 text-xs text-slate-700 my-4">
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-unimed-green"></i> +25 hospitais e 220+ clínicas/labs</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-unimed-green"></i> +1.600 médicos cooperados</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-unimed-green"></i> Coparticipação inteligente</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-unimed-green"></i> Urgência/Emergência Nacional</li>
+                        </ul>
+                    </div>
+                    <a href="#simulador" class="block text-center bg-slate-100 hover:bg-unimed-green hover:text-white text-slate-800 font-bold py-3 rounded-xl transition-all text-xs mt-4">
+                        Cotar Unifácil
+                    </a>
+                </div>
+
+                <!-- Plan 2: Unimed Pleno (Destaque) -->
+                <div class="bg-unimed-darkGreen text-white rounded-3xl p-6 shadow-xl relative border-2 border-unimed-accent flex flex-col justify-between">
+                    <span class="absolute -top-3 right-6 bg-unimed-accent text-slate-900 text-[10px] font-extrabold px-3 py-1 rounded-full uppercase">Modelo de Referência</span>
+                    <div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs font-bold text-emerald-200 bg-white/10 px-3 py-1 rounded-full uppercase">Atenção Primária</span>
+                            <span class="text-xs font-semibold text-emerald-100">Enf. / Apto</span>
+                        </div>
+                        <h3 class="text-2xl font-bold mt-3">Unimed Pleno</h3>
+                        <p class="text-emerald-100 text-xs mt-2">Médico de referência para guiar o seu cuidado continuo e equipe multidisciplinar dedicada.</p>
+                        
+                        <div class="my-4 p-3 bg-white/10 rounded-xl border border-white/20">
+                            <p class="text-xs text-emerald-200">Mensalidades a partir de</p>
+                            <p class="text-2xl font-extrabold text-unimed-accent">R$ 104,<span class="text-base">23 /mês</span></p>
+                        </div>
+
+                        <ul class="space-y-2.5 text-xs text-emerald-50 my-4">
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-unimed-accent"></i> <strong>Sem coparticipação</strong> na at. básica</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-unimed-accent"></i> Acesso a +15 hospitais de excelência</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-unimed-accent"></i> Acompanhamento proativo de saúde</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-unimed-accent"></i> Telemedicina ilimitada sem custo</li>
+                        </ul>
+                    </div>
+                    <a href="#simulador" class="block text-center bg-unimed-accent hover:bg-yellow-500 text-slate-900 font-extrabold py-3 rounded-xl transition-all text-xs mt-4">
+                        Cotar Unimed Pleno
+                    </a>
+                </div>
+
+                <!-- Plan 3: Bem Digital -->
+                <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm hover:shadow-xl transition-all flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs font-bold text-purple-700 bg-purple-50 px-3 py-1 rounded-full uppercase">Digital & Conectado</span>
+                            <span class="text-xs font-semibold text-slate-500">Enf. / Apto</span>
+                        </div>
+                        <h3 class="text-2xl font-bold text-slate-900 mt-3">Bem Digital</h3>
+                        <p class="text-slate-500 text-xs mt-2">Agilidade digital com Clínica On-line 24/7 e os principais hospitais de referência na Grande BH.</p>
+                        
+                        <div class="my-4 p-3 bg-slate-50 rounded-xl border border-slate-100">
+                            <p class="text-xs text-slate-500">Formato Digital</p>
+                            <p class="text-lg font-bold text-purple-800">Isento em consultas virtuais</p>
+                        </div>
+
+                        <ul class="space-y-2.5 text-xs text-slate-700 my-4">
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-purple-600"></i> Pronto Atendimento Virtual 24h</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-purple-600"></i> Isenção de coparticipação online</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-purple-600"></i> Hospitais principais de BH e Betim</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-purple-600"></i> Aplicativo de receitas digitais</li>
+                        </ul>
+                    </div>
+                    <a href="#simulador" class="block text-center bg-slate-100 hover:bg-unimed-green hover:text-white text-slate-800 font-bold py-3 rounded-xl transition-all text-xs mt-4">
+                        Cotar Bem Digital
+                    </a>
+                </div>
+
+                <!-- Plan 4: Unipart Flex -->
+                <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm hover:shadow-xl transition-all flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs font-bold text-blue-700 bg-blue-50 px-3 py-1 rounded-full uppercase">Rede Ampla</span>
+                            <span class="text-xs font-semibold text-slate-500">Enf. / Apto</span>
+                        </div>
+                        <h3 class="text-2xl font-bold text-slate-900 mt-3">Unipart Flex</h3>
+                        <p class="text-slate-500 text-xs mt-2">A maior liberdade de escolha do estado. Acesso irrestrito a todos os hospitais e médicos credenciados.</p>
+                        
+                        <div class="my-4 p-3 bg-slate-50 rounded-xl border border-slate-100">
+                            <p class="text-xs text-slate-500">Mensalidades a partir de</p>
+                            <p class="text-2xl font-extrabold text-blue-700">R$ 152,<span class="text-base">91 /mês</span></p>
+                        </div>
+
+                        <ul class="space-y-2.5 text-xs text-slate-700 my-4">
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-blue-600"></i> +5.200 médicos cooperados</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-blue-600"></i> +39 hospitais na Região Metropolitana</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-blue-600"></i> Mensalidade baixa + coparticipação</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-blue-600"></i> Maior rede de laboratórios de MG</li>
+                        </ul>
+                    </div>
+                    <a href="#simulador" class="block text-center bg-slate-100 hover:bg-unimed-green hover:text-white text-slate-800 font-bold py-3 rounded-xl transition-all text-xs mt-4">
+                        Cotar Unipart Flex
+                    </a>
+                </div>
+
+                <!-- Plan 5: Unimax -->
+                <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm hover:shadow-xl transition-all flex flex-col justify-between md:col-span-2 lg:col-span-2">
+                    <div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs font-bold text-emerald-800 bg-emerald-100 px-3 py-1 rounded-full uppercase">Sem Coparticipação</span>
+                            <span class="text-xs font-semibold text-slate-500">Acomodação em Apartamento ou Enf.</span>
+                        </div>
+                        <h3 class="text-2xl font-bold text-slate-900 mt-3">Unimax</h3>
+                        <p class="text-slate-500 text-xs mt-2">Tranquilidade financeira absoluta. Acesso integral a toda a rede Unimed-BH sem pagar nada extra ao utilizar exames, consultas ou internações.</p>
+                        
+                        <div class="grid sm:grid-cols-2 gap-4 my-4">
+                            <div class="p-3 bg-slate-50 rounded-xl border border-slate-100">
+                                <p class="text-xs text-slate-500">Cobertura de Consultas e Exames</p>
+                                <p class="text-sm font-bold text-slate-800">100% Coberto sem taxa</p>
+                            </div>
+                            <div class="p-3 bg-slate-50 rounded-xl border border-slate-100">
+                                <p class="text-xs text-slate-500">Internações & Cirurgias</p>
+                                <p class="text-sm font-bold text-slate-800">100% Coberto sem taxa</p>
+                            </div>
+                        </div>
+
+                        <ul class="grid sm:grid-cols-2 gap-2 text-xs text-slate-700 my-4">
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-unimed-green"></i> Rede Ampla completa de MG</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-unimed-green"></i> Cobertura em hospitais renomados</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-unimed-green"></i> Serviço de ambulância 24h incluso</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-unimed-green"></i> Descontos de até 50% na Drogaria Araújo</li>
+                        </ul>
+                    </div>
+                    <a href="#simulador" class="block text-center bg-unimed-green text-white font-bold py-3 rounded-xl transition-all text-xs mt-4">
+                        Solicitar Proposta Unimax
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Unimed Hospitals in BH & MG -->
+    <section id="unidades" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-12">
+            <span class="text-unimed-green font-bold text-xs uppercase tracking-widest bg-unimed-lightGreen px-3 py-1 rounded-full">Estrutura Própria</span>
+            <h2 class="text-3xl font-extrabold text-slate-900 mt-3">Hospitais Unimed em BH e Região</h2>
+            <p class="text-slate-600 mt-2 text-sm">Estrutura própria moderna, equipada para tratamentos complexos, maternidade e pronto-socorro.</p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8">
+            <!-- Hospital Contorno -->
+            <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-slate-200">
+                <img src="https://images.unsplash.com/photo-1586773860418-d37222d8fce3?auto=format&fit=crop&w=800&q=80" alt="Hospital Unimed Contorno" class="w-full h-48 object-cover">
+                <div class="p-6">
+                    <span class="text-xs font-bold text-unimed-green uppercase">Belo Horizonte - Bairro Santa Efigênia</span>
+                    <h3 class="text-xl font-bold text-slate-800 mt-1">Hospital Unimed - Unidade Contorno</h3>
+                    <p class="text-slate-600 text-xs mt-2">Referência em alta complexidade, cirurgia cardiovascular, oncologia e UTI especializada.</p>
+                    <p class="text-xs text-slate-500 mt-4 flex items-center gap-1 font-semibold">
+                        <i class="fa-solid fa-clock text-unimed-green"></i> Pronto-Socorro 24 Horas
+                    </p>
+                </div>
+            </div>
+
+            <!-- Centro de Promoção da Saúde Barreiro / Betim -->
+            <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-slate-200">
+                <img src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=800&q=80" alt="Hospital Unimed Betim" class="w-full h-48 object-cover">
+                <div class="p-6">
+                    <span class="text-xs font-bold text-unimed-green uppercase">Betim / Região Metropolitana</span>
+                    <h3 class="text-xl font-bold text-slate-800 mt-1">Hospital Unimed - Unidade Betim</h3>
+                    <p class="text-slate-600 text-xs mt-2">Pronto atendimento infantil e adulto, centro cirúrgico com tecnologia de ponta e leitos de UTI.</p>
+                    <p class="text-xs text-slate-500 mt-4 flex items-center gap-1 font-semibold">
+                        <i class="fa-solid fa-clock text-unimed-green"></i> Pronto-Socorro 24 Horas
+                    </p>
+                </div>
+            </div>
+
+            <!-- Maternidade e Unidade Pedro I -->
+            <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-slate-200">
+                <img src="https://images.unsplash.com/photo-1512678080530-7760d81faba6?auto=format&fit=crop&w=800&q=80" alt="Maternidade Unimed BH" class="w-full h-48 object-cover">
+                <div class="p-6">
+                    <span class="text-xs font-bold text-unimed-green uppercase">Belo Horizonte - Av. Pedro I</span>
+                    <h3 class="text-xl font-bold text-slate-800 mt-1">Centro de Promoção da Saúde e Maternidade</h3>
+                    <p class="text-slate-600 text-xs mt-2">Atendimento obstétrico humanizado, UTIN neonatal e consultas com médicos especialistas em rotina pré-natal.</p>
+                    <p class="text-xs text-slate-500 mt-4 flex items-center gap-1 font-semibold">
+                        <i class="fa-solid fa-heart-pulse text-unimed-green"></i> Centro de Saúde Integrado
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-300 pt-16 pb-8 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 pb-12 border-b border-slate-800">
+                <div>
+                    <div class="bg-unimed-green text-white inline-block px-4 py-2 rounded-xl font-black text-xl mb-4">
+                        Unimed-BH
+                    </div>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        A Unimed-BH é a maior operadora de planos de saúde de Minas Gerais e líder em satisfação dos beneficiários.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-bold text-sm mb-4">Modelos de Planos</h4>
+                    <ul class="space-y-2 text-xs">
+                        <li>Unifácil Flex</li>
+                        <li>Unimed Pleno</li>
+                        <li>Bem Digital</li>
+                        <li>Unipart Flex</li>
+                        <li>Unimax (Sem coparticipação)</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-bold text-sm mb-4">Unidades Próprias</h4>
+                    <ul class="space-y-2 text-xs">
+                        <li>Hospital Unimed - Contorno (BH)</li>
+                        <li>Hospital Unimed - Betim</li>
+                        <li>CPS Santa Efigênia</li>
+                        <li>CPS Pedro I / Barreiro</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-bold text-sm mb-4">Canais de Atendimento</h4>
+                    <div class="space-y-3 text-xs">
+                        <p><i class="fa-solid fa-phone text-unimed-green mr-1"></i> Central: 0800 030 3000</p>
+                        <p><i class="fa-brands fa-whatsapp text-emerald-400 mr-1"></i> WhatsApp: (31) 98888-0000</p>
+                        <p><i class="fa-solid fa-store text-unimed-accent mr-1"></i> Parceria com Drogaria Araújo (Descontos)</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pt-8 text-center text-xs text-slate-500">
+                <p>&copy; 2026 Unimed Belo Horizonte Cooperativa de Trabalho Médico. Todos os direitos reservados. Registro ANS nº 34567-8.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+        });
+
+        function handleQuoteSubmit(event) {
+            event.preventDefault();
+            const model = document.getElementById('modelType').selectedOptions[0].text;
+            const plan = document.getElementById('planType').selectedOptions[0].text;
+
+            const banner = document.createElement('div');
+            banner.className = 'fixed bottom-5 right-5 bg-unimed-darkGreen text-white px-6 py-4 rounded-2xl shadow-2xl z-50 flex items-center gap-3 animate-bounce';
+            banner.innerHTML = `<i class="fa-solid fa-check-circle text-unimed-accent text-xl"></i> Cotação solicitada para <strong>${plan}</strong> (${model})! Um consultor enviará a tabela via WhatsApp.`;
+            document.body.appendChild(banner);
+
+            setTimeout(() => {
+                banner.remove();
+            }, 4000);
+        }
+    </script>
+</body>
+</html>
